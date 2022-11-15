@@ -6,12 +6,19 @@ using TMPro;
 
 public class MenuManager : MonoBehaviour
 {
+	public GameObject settingsPanel;
+	public GameObject startPanel;
+	public GameObject levelsPanel;
+	public GameObject resumePanel;
+	public GameObject gameWinPanel;
+	public GameObject gameOverPanel;
+
 	public TextMeshProUGUI highscoreText;
 	public TextMeshProUGUI coinText;
 	public TextMeshProUGUI fruitsText;
 	
 	public Button settingsButton;
-	public Button shopButton;
+	//public Button shopButton;
 	public Button soundsButton;
 	public Button musicButton;
 	public Button femaleButton;	
@@ -32,6 +39,41 @@ public class MenuManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(GameManager.isGameOver){
+        	// Debug.Log("Game Over");
+        	gameOverPanel.SetActive(true);
+        }
+        
+        if(GameManager.isGameCompleted){
+        	gameWinPanel.SetActive(true);
+        }
         
     }
+    
+    public void GetSettings(){
+        settingsPanel.SetActive(true);
+    } 
+    
+     public void GetShop(){
+
+    }
+    
+    public void ResumeGame(){
+        resumePanel.SetActive(true);
+    }
+    
+    public void GetStartMenu(){
+        startPanel.SetActive(true);
+        settingsPanel.SetActive(false);
+    }
+    
+    public void GetLevels(){
+    	levelsPanel.SetActive(true);
+    	startPanel.SetActive(false);
+    }
+    
+     public void QuitGame(){
+    	Application.Quit();
+    }
+    
 }
