@@ -39,6 +39,7 @@ public class MenuManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+/*
         if(GameManager.isGameOver){
         	// Debug.Log("Game Over");
         	gameOverPanel.SetActive(true);
@@ -47,6 +48,7 @@ public class MenuManager : MonoBehaviour
         if(GameManager.isGameCompleted){
         	gameWinPanel.SetActive(true);
         }
+*/
         
     }
     
