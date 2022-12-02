@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class CharacterSelection : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public GameObject[] players;
+	//public static GameObject player;
+	public int selectedPlayer = 0;
+    
     void Start()
     {
-        
+        foreach(GameObject pl in players){
+        		pl.SetActive(false);
+        }
+        players[selectedPlayer].SetActive(true);
+       // player = players[selectedPlayer]; 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public void ChangePlayer(int newPlayer){
+		players[selectedPlayer].SetActive(false);
+		players[newPlayer].SetActive(true);
+		selectedPlayer = newPlayer;
+	}
 }

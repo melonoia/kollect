@@ -5,51 +5,70 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
 
-	public GameObject[] fruitPrefabs;
+	public GameObject[] objectPrefabs;
 	
-	private float spawnLimitX = .4f;
-    private float spawnPosY = 4f;
+	private float spawnLimitX1 = 1f;
+	private float spawnLimitX2 = -1f;
+    private float spawnPosY = 10.0f;
 	
-	private float startDelay = 2;
-    private float spawnInterval;
+	private float startDelay = 1f;
     
     // Start is called before the first frame update
     void Start()
     {
-    	// Spawn between 3 - 5 seconds
-    	spawnInterval = Random.Range(3,6);
-        // Spawn random fruits after a given time
-        InvokeRepeating("SpawnRandomFruit", startDelay, spawnInterval);
+        // Spawn random objects after a given time
+        if(LevelManager.currentLevelIndex < 4)
+        {
+		    InvokeRepeating("SpawnFruit", startDelay, Random.Range(.8f, 1.5f));
+		    InvokeRepeating("SpawnStone", startDelay, Random.Range(1f,5f));
+        }
+        
+        if(LevelManager.currentLevelIndex >= 4)
+        {
+        	 InvokeRepeating("SpawnFruit", startDelay, Random.Range(0.1f,1f));
+        	 InvokeRepeating("SpawnStone", startDelay, Random.Range(.5f,3f));
+        }
+        
+    }
+    
+    Vector3 SpawnPos()
+    {
+		// Generate random object index and random spawn position
+        Vector3 spawnPos = new Vector3( Random.Range(spawnLimitX2, 
+        spawnLimitX1) , spawnPosY, 0);
+        
+        return spawnPos;
     }
 
-    void SpawnRandomFruit()
+    void SpawnFruit()
     {
 
-		// Generate random ball index and random spawn position
-        Vector3 spawnPos = new Vector3(
-       // Random.Range(-spawnLimitX, 
-        spawnLimitX
-        //)
-        , spawnPosY, 0);
-
-        int fruitIndex = Random.Range(0, fruitPrefabs.Length);
-        
-        /*
-        Vector3[] angles = new Vector3[3];
-        angles[0] = new Vector3(0, 180, 0);
-        angles[1] = new Vector3(0, 90, 0);
-        angles[2] = new Vector3(0, 270, 0);
-        
-        int angleIndex = Random.Range(0, angles.Length);
-
-        transform.eulerAngles = angles[angleIndex];
-        transform.rotation = Quaternion.Euler(transform.eulerAngles);
-        
-        animalPrefabs[animalIndex].transform.rotation = transform.rotation;
-        
-        */
-
-        Instantiate(fruitPrefabs[fruitIndex], spawnPos,/* fruitPrefabs[fruitIndex].*/transform.rotation);
-        
+        int objectIndex = 0;
+      
+      	if(GameManager.isGameStarted)
+      	{ 	
+        	Instantiate(objectPrefabs[objectIndex], SpawnPos(), Quaternion.identity);     
+      	}
     }
+    
+     void SpawnStone()
+    {
+
+        int objectIndex = Random.Range(1,3);
+      
+      	if(GameManager.isGameStarted)
+      	{ 	
+        	
+        	if(LevelManager.currentLevelIndex <= 3)
+        	{
+        		Instantiate(objectPrefabs[1], SpawnPos(), Quaternion.identity);  
+        	}
+        	
+        	if(LevelManager.currentLevelIndex >= 4)
+        	{
+        	    Instantiate(objectPrefabs[objectIndex], SpawnPos(), Quaternion.identity);  
+        	}
+      	}
+    }
+
 }

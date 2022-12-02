@@ -4,16 +4,43 @@ using UnityEngine;
 
 public class SpawnObject : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+    private AudioManager audioManager;
+    private ParticleSystem objectParticle;
+
     void Start()
     {
-        
+        audioManager = FindObjectOfType<AudioManager>();
+        objectParticle = GetComponentInChildren<ParticleSystem>();
+        StartCoroutine(DestroySpawnObject());
+
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnCollisionEnter(Collision collision)
     {
-        
-    }  
-    
+
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            if (gameObject.CompareTag("Fruit"))
+            {
+                audioManager.Play("squish");
+                //objectParticle.Play();
+            }
+
+            if (gameObject.CompareTag("Stone"))
+            {
+                audioManager.Play("fall");
+                objectParticle.Play();
+               // Destroy(gameObject, 1);
+
+            }
+        }
+    }
+
+    IEnumerator DestroySpawnObject()
+    {
+        yield return new WaitForSeconds(3f);
+        Destroy(gameObject);
+    }
+
 }
